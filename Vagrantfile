@@ -7,8 +7,13 @@ Vagrant.configure("2") do |config|
   config.ssh.forward_agent = true
 
   # Shared folders
-  utilize_nfs = (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) == nil
-  config.vm.synced_folder "../django", "/django", nfs: utilize_nfs
+  #utilize_nfs = (/cygwin|mswin|mingw|bccwin|wince|emx/ =~ RUBY_PLATFORM) == nil
+  #config.vm.synced_folder "../django", "/django", nfs: utilize_nfs
+  config.vm.synced_folder "../django", "/django"
+
+  config.vm.provider 'virtualbox' do |vb|
+    vb.customize ["modifyvm", :id, "--cableconnected1", "on"]
+  end
 
   # Host-only network required to use NFS shared folders
   config.vm.network "private_network", ip: "1.2.3.4"
